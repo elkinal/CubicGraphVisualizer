@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -21,6 +21,7 @@ public class Content extends JPanel implements ActionListener {
     private static double d = 0;
     private static double e = 0;
     private static String[] formula;
+    private static String input;
 
     public Content() {
 
@@ -32,23 +33,28 @@ public class Content extends JPanel implements ActionListener {
         b = scanner.nextDouble();
         System.out.println("Enter c");
         c = scanner.nextDouble();
+        System.out.println("Enter d");
+        d = scanner.nextDouble();
+
+
 
         System.out.println("Enter the formula");
-
+        input = scanner.next();
+        System.out.println(filterNumbers(input));
 //        formula = scanner.next().split("[+-]");
-        formula = scanner.next().split("");
-        String formulaString = Arrays.toString(formula).replaceAll("[a-zA-Z]", "").replace("^", "");
-        System.out.println(formulaString);
+//        formula = scanner.next().split("");
+//        String formulaString = Arrays.toString(formula).replaceAll("[a-zA-Z]", "").replace("^", "");
+//        System.out.println(formulaString);
 
 
-        System.out.println(Arrays.toString(formula));
+        /*System.out.println(Arrays.toString(formula));
         if(formula.length == 3) {
             System.out.println("Quadratic Equation");
             System.out.println(filterNumbers("x^2+3x-7"));
         } //+= ignored because of parsing method
         if(formula.length == 4) {
             System.out.println("Polynomial [3] Equation");
-        }
+        }*/
 
         //drawPointAt(x, y);
         //testing
@@ -110,6 +116,9 @@ public class Content extends JPanel implements ActionListener {
         double lastY = 0;*/
         x = -100;
         while (x <= 100) {
+            /*a = filterNumbers(input).get(0);
+            b = filterNumbers(input).get(1);
+            c = filterNumbers(input).get(2);*/
             /*if(formula.length == 2) {
                 y = (a * x) + b; //straight
             }
@@ -122,7 +131,8 @@ public class Content extends JPanel implements ActionListener {
             if(formula.length == 5) {
                 y = (a * x * x * x * x) + (b * x * x * x) + (c * x * x) + (d * x) + e; //polynomial
             }*/
-            y = (a * x * x) + (b * x) + c;
+//            y = (a * x * x) + (b * x) + c;
+            y = (a * x * x * x) + (b * x * x) + (c * x) + d;
             //System.out.println(x + "," + y);
             if(y < 100 && y > -100)
                 graphics2D.drawRect((int)(Program.screenHeight / 2 + (originalSize * x * Program.scale)), (int)(Program.screenHeight - (Program.screenHeight / 2 + (originalSize * y * Program.scale))), 1, 1);
@@ -130,22 +140,29 @@ public class Content extends JPanel implements ActionListener {
             /*graphics2D.drawLine((int)lastX, (int)lastY, (int)(Program.screenHeight / 2 + (originalSize * x * Program.scale)), (int)(Program.screenHeight / 2 + (originalSize * y * Program.scale)));
             lastX = x;
             lastY = y;*/
-            x+=0.5;
+            x+=0.01;
         }
 
 //        graphics2D.drawRect((int)(Program.screenHeight / 2 + (originalSize * x * Program.scale)), (int)(Program.screenHeight - (Program.screenHeight / 2 + (originalSize * y * Program.scale))), 1, 1);
 
 
     }
-    public String filterNumbers(String control) {
+    private static ArrayList<Integer> filterNumbers(String control) {
         String result = "";
+        String mod = "+";
+        ArrayList<Integer> list = new ArrayList<>();
+
         for (int i = 0; i < control.length(); i++) {
+            if(control.charAt(i) == '+')
+                mod = "+";
+            else if(control.charAt(i) == '-')
+                mod = "-";
             if(Character.isDigit(control.charAt(i))) {
-                result += " " + control.charAt(i);
+                //result += "," + mod + control.charAt(i);
+                list.add(Integer.valueOf(mod + control.charAt(i)));
             }
         }
-        //it actually seems to add all the numbers! fix this!
-        return result;
+        return list;
     }
 
 
@@ -156,6 +173,5 @@ public class Content extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 //        System.out.println(Program.scale);
-
     }
 }

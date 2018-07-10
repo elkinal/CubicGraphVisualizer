@@ -17,5 +17,7 @@ public class Program {
         frame.setResizable(true);
         frame.setSize(screenWidth,screenHeight);
         frame.setVisible(true);
+
+
     }
 }
